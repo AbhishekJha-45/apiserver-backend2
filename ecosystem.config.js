@@ -7,7 +7,7 @@ module.exports = {
 
   deploy: {
     production: {
-      password: "password.pem",
+      key: "password.pem",
       user: "ubuntu",
       host: "54.153.181.177",
       ref: "origin/main",
