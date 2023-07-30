@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors());
-
+console.log(process.env.DB_URI);
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", (error) => console.log(error));
