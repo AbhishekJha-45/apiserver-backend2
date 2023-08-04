@@ -26,28 +26,6 @@
       property="og:description"
       content="Admin One - free Tailwind dashboard"
     />
-    <meta
-      property="og:image"
-      content="https://justboil.me/images/one-tailwind/repository-preview-hi-res.png"
-    />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1920" />
-    <meta property="og:image:height" content="960" />
-
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content="Admin One HTML" />
-    <meta
-      property="twitter:description"
-      content="Admin One - free Tailwind dashboard"
-    />
-    <meta
-      property="twitter:image:src"
-      content="https://justboil.me/images/one-tailwind/repository-preview-hi-res.png"
-    />
-    <meta property="twitter:image:width" content="1920" />
-    <meta property="twitter:image:height" content="960" />
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
   </head>
   <body>
     <div id="app">
@@ -98,7 +76,7 @@
                   <span>Messages</span>
                 </a>
                 <hr class="navbar-divider" />
-                <a class="navbar-item">
+                <a class="navbar-item" href="/logout">
                   <span class="icon"><i class="mdi mdi-logout"></i></span>
                   <span>Log Out</span>
                 </a>
@@ -108,12 +86,12 @@
               <a class="navbar-link">
                 <div class="user-avatar">
                   <img
-                    src="https://avatars.dicebear.com/v2/initials/john-doe.svg"
-                    alt="John Doe"
+                    src="/images/poster.png"
+                    alt="Vikash Kumar Pal"
                     class="rounded-full"
                   />
                 </div>
-                <div class="is-user-name"><span>John Doe</span></div>
+                <div class="is-user-name"><span>Vikash Kumar Pal</span></div>
                 <span class="icon"><i class="mdi mdi-chevron-down"></i></span>
               </a>
               <div class="navbar-dropdown">
@@ -136,22 +114,6 @@
                 </a>
               </div>
             </div>
-            <a
-              href="https://justboil.me/tailwind-admin-templates"
-              class="navbar-item has-divider desktop-icon-only"
-            >
-              <span class="icon"
-                ><i class="mdi mdi-help-circle-outline"></i
-              ></span>
-              <span>About</span>
-            </a>
-            <a
-              href="https://github.com/justboil/admin-one-tailwind"
-              class="navbar-item has-divider desktop-icon-only"
-            >
-              <span class="icon"><i class="mdi mdi-github-circle"></i></span>
-              <span>GitHub</span>
-            </a>
             <a title="Log out" class="navbar-item desktop-icon-only">
               <span class="icon"><i class="mdi mdi-logout"></i></span>
               <span>Log out</span>
@@ -168,7 +130,7 @@
           <p class="menu-label">General</p>
           <ul class="menu-list">
             <li class="--set-active-index-html">
-              <a href="index.html">
+              <a href="/dashboard">
                 <span class="icon"><i class="mdi mdi-desktop-mac"></i></span>
                 <span class="menu-item-label">Dashboard</span>
               </a>
@@ -176,30 +138,22 @@
           </ul>
           <p class="menu-label">Examples</p>
           <ul class="menu-list">
-            <li class="--set-active-tables-html">
-              <a href="tables.html">
-                <span class="icon"><i class="mdi mdi-table"></i></span>
-                <span class="menu-item-label">Tables</span>
-              </a>
-            </li>
             <li class="active">
-              <a href="forms.html">
-                <span class="icon"
-                  ><i class="mdi mdi-square-edit-outline"></i
-                ></span>
-                <span class="menu-item-label">Forms</span>
+              <a href="/newblogpost">
+                <span class="icon"><i class="mdi mdi-blogger"></i></span>
+                <span class="menu-item-label">New Blog Post</span>
               </a>
             </li>
             <li class="--set-active-profile-html">
-              <a href="profile.html">
-                <span class="icon"><i class="mdi mdi-account-circle"></i></span>
-                <span class="menu-item-label">Profile</span>
+              <a href="/newcasestudy">
+                <span class="icon"><i class="mdi mdi-blogger"></i></span>
+                <span class="menu-item-label">New Case Study</span>
               </a>
             </li>
             <li>
-              <a href="login.html">
-                <span class="icon"><i class="mdi mdi-lock"></i></span>
-                <span class="menu-item-label">Login</span>
+              <a href="login">
+                <span class="icon"><i class="mdi mdi-logout"></i></span>
+                <span class="menu-item-label">Logout</span>
               </a>
             </li>
             <li>
@@ -220,40 +174,6 @@
                   </a>
                 </li>
               </ul>
-            </li>
-          </ul>
-          <p class="menu-label">About</p>
-          <ul class="menu-list">
-            <li>
-              <a
-                href="https://justboil.me"
-                onclick="alert('Coming soon'); return false"
-                target="_blank"
-                class="has-icon"
-              >
-                <span class="icon"
-                  ><i class="mdi mdi-credit-card-outline"></i
-                ></span>
-                <span class="menu-item-label">Premium Demo</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://justboil.me/tailwind-admin-templates"
-                class="has-icon"
-              >
-                <span class="icon"><i class="mdi mdi-help-circle"></i></span>
-                <span class="menu-item-label">About</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://github.com/justboil/admin-one-tailwind"
-                class="has-icon"
-              >
-                <span class="icon"><i class="mdi mdi-github-circle"></i></span>
-                <span class="menu-item-label">GitHub</span>
-              </a>
             </li>
           </ul>
         </div>

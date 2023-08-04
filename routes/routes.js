@@ -6,6 +6,17 @@ const multer = require("multer");
 const NewBlogPost = require("../models/newblogpost");
 const Users = require("../models/users");
 const NewCaseStudy = require("../models/newcasestudy");
+const bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const {
+  signin,
+  authenticateToken,
+  logout,
+} = require("../middlewares/authentication");
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(cookieParser(process.env.SECRET_KEY));
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -19,9 +30,21 @@ var upload = multer({
   storage: storage,
 }).single("image");
 
+//login authentication
+router.post("/authenticate", signin);
+//rendering login page
+router.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "../views/login.html"));
+});
+router.get("/logout", (req, res, next) => {
+  res.clearCookie("token");
+  next();
+  res.redirect("/login");
+});
+
 // creating new posts
 
-router.post("/newblogpost", upload, (req, res) => {
+router.post("/newblogpost", authenticateToken, upload, (req, res) => {
   const newblogPost = new NewBlogPost({
     title: req.body.title,
     description: req.body.description,
@@ -96,28 +119,44 @@ router.post("/newcasestudy", upload, (req, res) => {
     });
 });
 
-// now trying with users db
-router.post("/users", upload, (req, res) => {
-  const users = new Users({
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    image: req.file.filename,
-  });
+// creating new users
+router.post("/signup", authenticateToken, async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res
+      .status(400)
+      .json({ error: "Both email and password are required." });
+  }
+  try {
+    // Hash the password using bcrypt
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  users
-    .save()
-    .then(() => {
-      res.send("Blog post saved successfully");
-      users.db.close();
-      res.send("Connection Closed Successfully");
-    })
-    .catch((error) => {
-      res.status(500).send("Error saving blog post: " + error);
+    // Create a new user instance
+    const newUser = new Users({
+      email: email,
+      password: hashedPassword,
+      updated_at: Date.now(),
     });
+
+    // Save the user to the database
+    const savedUser = await newUser.save();
+
+    // Create a JWT token for the user
+    const token = jwt.sign(
+      { email: savedUser.email, id: savedUser._id },
+      process.env.SECRET_KEY
+    );
+
+    // Respond with the new user and the token
+    res.redirect("/");
+  } catch (error) {
+    // Handle any errors that occur during the process
+    res.status(500).send("Error creating new user: " + error.message);
+  }
 });
 
-router.get("/users", (req, res) => {
+//rerndering signup page
+router.get("/signup", authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, "../views/users.html"));
 });
 
@@ -139,22 +178,24 @@ router.get("/", async (req, res) => {
 });
 
 // retriving image
-router.get("/", async (req, res) => {});
+// router.get("/", async (req, res) => {});
 
 const staticPath = path.join(__dirname, "../public");
 router.use(express.static(staticPath));
 
-router.get("/newblogpost", (req, res) => {
+router.get("/newblogpost", authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, "../views/forms.html"));
 });
 // render new case study page
-router.get("/newcasestudy", (req, res) => {
+router.get("/newcasestudy", authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, "../views/new_case_study.html"));
 });
 router.get("/blog/rating", (req, res) => {
   res.sendFile(path.join(__dirname, "../views/rating.html"));
 });
-
+router.get("/dashboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "../views/index.html"));
+});
 // update rating here
 router.put("/rating/:post_url", async (req, res) => {
   try {
@@ -251,7 +292,6 @@ router.get("/casestudy/latestposts/", async (req, res) => {
     res.json({ message: error.message });
   }
 });
-
 
 router.get("/public/css/main.css", (req, res, next) => {
   res.setHeader("Content-Type", mime.getType("text/css"));
