@@ -7,11 +7,11 @@ module.exports = {
 
   deploy: {
     production: {
-      password: "password.pem",
+      key: "password.pem",
       user: "ubuntu",
       host: "54.153.181.177",
-      ref: "origin/master",
-      repo: "https://github.com/AbhishekJha-45/api-server",
+      ref: "origin/main",
+      repo: "https://github.com/AbhishekJha-45/apiserver-backend2.git",
       path: "home/ubuntu",
       "pre-deploy-local": "",
       "post-deploy":
