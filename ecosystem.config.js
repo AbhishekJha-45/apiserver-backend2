@@ -9,7 +9,7 @@ module.exports = {
     production: {
       key: "password.pem",
       user: "ubuntu",
-      host: "54.153.181.177",
+      host: "13.210.60.144",
       ref: "origin/main",
       repo: "https://github.com/AbhishekJha-45/apiserver-backend2.git",
       path: "home/ubuntu",

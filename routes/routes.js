@@ -48,7 +48,6 @@ router.post("/newblogpost", authenticateToken, upload, (req, res) => {
   const newblogPost = new NewBlogPost({
     title: req.body.title,
     description: req.body.description,
-    // image: req.file.filename,
     image: "http:localhost:5000/images/" + req.file.filename,
     post_url: req.body.post_url,
     redirect_url: req.body.redirect_url,
@@ -57,8 +56,9 @@ router.post("/newblogpost", authenticateToken, upload, (req, res) => {
     category: req.body.category,
     robots: req.body.robots,
     heading: req.body.heading,
-    rating: req.body.rating,
-    table_of_contents: req.body.content,
+    rating: 0,
+    totalRatings: 0,
+    table_of_contents: req.body.tableofcontents,
     content: req.body.content,
     totalRatings: req.body.rating,
   });
@@ -296,6 +296,23 @@ router.get("/casestudy/latestposts/", async (req, res) => {
 router.get("/public/css/main.css", (req, res, next) => {
   res.setHeader("Content-Type", mime.getType("text/css"));
   next();
+});
+router.get("/casestudy/:post_url", async (req, res) => {
+  try {
+    const post_url = req.params.post_url;
+
+    const casestudy = await newcasestudy.findOne({ post_url });
+
+    if (!casestudy) {
+      // If the document is not found
+      return res.status(404).json({ message: "Case study not found" }); // Changed the message to be more accurate
+    }
+
+    res.json(casestudy); // Send the case study details as JSON response
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
 });
 
 module.exports = router;
